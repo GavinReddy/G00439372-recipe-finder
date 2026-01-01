@@ -1,27 +1,39 @@
-#container {
-  text-align: center;
+// styles for the home page
 
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+// styles for the main content area
+ion-content {
+  --padding-start: 16px;   
+  --padding-end: 16px;     
+  --padding-top: 16px;     
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+// styles for the search button
+ion-button[expand="block"] {
+  margin: 16px 0;  /* 16px top/bottom, 0 left/right */
 }
 
-#container p {
-  font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
-  margin: 0;
+// styles for the loading spinner container
+.loading-container {
+  display: flex;              /* Enable flexbox layout */
+  justify-content: center;    /* Center horizontally */
+  align-items: center;        /* Center vertically */
+  padding: 20px;              /* Space around spinner */
 }
 
-#container a {
-  text-decoration: none;
+// styles for each recipe card in the list
+ion-card {
+  margin-bottom: 16px;  /* Space below each card */
+}
+
+// styles for images within recipe cards
+ion-card ion-img {
+  width: 100%;         /* Image fills full card width */
+  height: auto;        /* Height adjusts to maintain aspect ratio */
+  object-fit: cover;   /* Crop image to fill space without distortion */
+}
+
+// styles for the recipe title within each card
+ion-card-title {
+  font-size: 1.2rem;   /* Slightly larger than default text */
+                       /* rem = relative to root font size (scalable) */
 }
