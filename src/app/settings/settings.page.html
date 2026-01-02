@@ -1,13 +1,56 @@
-<ion-header [translucent]="true">
+<!-- 
+     Settings Page Template
+     This template displays the settings interface.
+     Users can toggle between Metric and US measurements.
+     The selected option is saved to Ionic Storage.
+-->
+
+<!-- 
+     Headder Section
+ -->
+<ion-header>
   <ion-toolbar>
-    <ion-title>settings</ion-title>
+    <!-- Back button to return to Home page -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <!-- Page title -->
+    <ion-title>Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">settings</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<!-- 
+     Content Section
+-->
+<ion-content>
+  <!-- Settings list container -->
+  <ion-list>
+    
+    <!-- Section header explaining what the radio buttons do -->
+    <ion-item>
+      <ion-label>Display Recipe Measurements In:</ion-label>
+    </ion-item>
+
+    <!-- 
+         Radio Group for Measurement Selection
+         [value]: Binds to measurementUnit property
+         (ionChange): Calls onMeasurementChange() when selection changes
+    -->
+    <ion-radio-group [value]="measurementUnit" (ionChange)="onMeasurementChange($event)">
+      
+      <!-- Metric option -->
+      <ion-item>
+        <ion-radio slot="start" value="metric"></ion-radio>
+        <ion-label>Metric</ion-label>
+      </ion-item>
+
+      <!-- US option -->
+      <ion-item>
+        <ion-radio slot="start" value="us"></ion-radio>
+        <ion-label>US</ion-label>
+      </ion-item>
+
+    </ion-radio-group>
+
+  </ion-list>
 </ion-content>
