@@ -1,56 +1,40 @@
 <!-- 
-     Settings Page Template
-     This template displays the settings interface.
-     Users can toggle between Metric and US measurements.
-     The selected option is saved to Ionic Storage.
+  Settings Page Template
+  Allows users to select their preferred measurement units (Metric or US)
+  The selected preference is persisted using StorageService
 -->
-
-<!-- 
-     Headder Section
- -->
 <ion-header>
   <ion-toolbar>
-    <!-- Back button to return to Home page -->
+    <!-- Back button to return to previous page -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
-    <!-- Page title -->
     <ion-title>Settings</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<!-- 
-     Content Section
--->
-<ion-content>
-  <!-- Settings list container -->
-  <ion-list>
-    
-    <!-- Section header explaining what the radio buttons do -->
-    <ion-item>
-      <ion-label>Display Recipe Measurements In:</ion-label>
-    </ion-item>
+<ion-content class="ion-padding">
+  <!-- Settings label -->
+  <ion-text>
+    <h2>Display Recipe Measurements In:</h2>
+  </ion-text>
 
-    <!-- 
-         Radio Group for Measurement Selection
-         [value]: Binds to measurementUnit property
-         (ionChange): Calls onMeasurementChange() when selection changes
-    -->
-    <ion-radio-group [value]="measurementUnit" (ionChange)="onMeasurementChange($event)">
+  <!-- Radio group for measurement selection -->
+  <ion-list>
+    <ion-radio-group 
+      [(ngModel)]="measurementUnit" 
+      (ionChange)="onMeasurementChange($event)">
       
       <!-- Metric option -->
       <ion-item>
-        <ion-radio slot="start" value="metric"></ion-radio>
-        <ion-label>Metric</ion-label>
+        <ion-radio value="metric" mode="md">Metric</ion-radio>
       </ion-item>
-
+      
       <!-- US option -->
       <ion-item>
-        <ion-radio slot="start" value="us"></ion-radio>
-        <ion-label>US</ion-label>
+        <ion-radio value="us" mode="md">US</ion-radio>
       </ion-item>
-
+      
     </ion-radio-group>
-
   </ion-list>
 </ion-content>

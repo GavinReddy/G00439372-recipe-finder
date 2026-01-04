@@ -1,31 +1,18 @@
-/* 
-   Settings Page Styles
-   Styles for the settings page layout.
-   Keeps the design clean and matches project screenshots.
-*/
+/* Settings Page Styles */
+ion-item {
+  --padding-start: 16px;
+  --inner-padding-start: 16px;
+}
 
-/* LIST HEADER STYLING */
 ion-list {
-  /* Add some spacing at the top of the list */
-  margin-top: 16px;
+  margin-top: 1px;
 }
 
-/* Section Label Styling */
-ion-item ion-label {
-  /* Make the "Display Recipe Measurements In:" label stand out */
-  font-weight: 500;
+
+ion-label {
+  font-weight: 200;
 }
 
-/* Radio Group Styling */
-ion-radio-group {
-  /* Ensure radio items have consistent padding */
-  ion-item {
-    --padding-start: 16px;
-  }
-}
-
-/* Radio Button Styling */
 ion-radio {
-  /* Add spacing between radio button and label */
   margin-right: 12px;
 }
