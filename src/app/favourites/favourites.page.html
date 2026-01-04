@@ -1,13 +1,66 @@
-<ion-header [translucent]="true">
+<!-- ============================================
+     Favourites Page Template
+     This template displays all saved favourite recipes.
+     Shows recipe cards with images and DETAILS buttons.
+     Displays a helpful message if no favourites exist.
+-->
+ 
+<!-- HEADER SECTION -->
+<ion-header>
   <ion-toolbar>
-    <ion-title>favourites</ion-title>
+    <!-- Back button to return to Home page -->
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <!-- Page title matching project requirements -->
+    <ion-title>Favourites Recipes</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">favourites</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<!-- CONTENT SECTION -->
+<ion-content>
+
+  <!-- EMPTY STATE MESSAGE
+       Shown when user has no saved favourites.
+       *ngIf checks if the favourites array is empty.
+       This is an INNOVATION - provides helpful guidance.
+  -->
+  <div *ngIf="favourites.length === 0" class="empty-message">
+    <ion-text color="medium">
+      <p>No favourite recipes yet.</p>
+      <p>Add recipes to your favourites from the recipe details page.</p>
+    </ion-text>
+  </div>
+
+  <!-- FAVOURITES LIST
+       Shown when user has one or more favourites.
+       *ngIf checks if the favourites array has items.
+  -->
+  <ion-list *ngIf="favourites.length > 0">
+
+    <!-- 
+         Recipe Cards for Favourites
+   
+         *ngFor loops through each favourite recipe.
+         Displays: image, title, and DETAILS button.
+    -->
+    <ion-card *ngFor="let recipe of favourites">
+      
+      <!-- Recipe image from Spoonacular -->
+      <ion-img [src]="recipe.image"></ion-img>
+      
+      <ion-card-header>
+        <!-- Recipe title -->
+        <ion-card-title>{{ recipe.title }}</ion-card-title>
+      </ion-card-header>
+      
+      <ion-card-content>
+        <!-- DETAILS button navigates to recipe details page -->
+        <ion-button (click)="viewDetails(recipe)">DETAILS</ion-button>
+      </ion-card-content>
+      
+    </ion-card>
+
+  </ion-list>
+
 </ion-content>

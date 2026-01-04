@@ -1,0 +1,71 @@
+/* 
+  Favourites Page Styles
+
+   Styles for the favourites page layout.
+   Handles empty state and recipe card styling.
+*/
+
+/* Empty State Message Styling 
+   Centered message shown when no favourites exist.
+   Innovation to guide users on adding favourites.
+*/
+.empty-message {
+  /* Center the message vertically and horizontally */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  
+  /* Take full height of content area */
+  height: 100%;
+  
+  /* Center the text */
+  text-align: center;
+  
+  /* Add padding around the message */
+  padding: 20px;
+
+  p {
+    /* Space between paragraphs */
+    margin: 8px 0;
+  }
+}
+
+/* Recipe Card Styling
+   Styles for each favourite recipe card.
+*/
+ion-card {
+  /* Add margin around cards */
+  margin: 16px;
+
+  /* Recipe image styling */
+  ion-img {
+    /* Full width image */
+    width: 100%;
+    
+    /* Maintain aspect ratio */
+    height: auto;
+    
+    /* Cover the card width */
+    object-fit: cover;
+  }
+}
+
+/* Card Title Styling
+   Makes recipe titles stand out
+*/
+ion-card-title {
+  /* Readable font size */
+  font-size: 1.2rem;
+  
+  /* Medium weight for emphasis */
+  font-weight: 500;
+}
+
+/* Details Button Styling
+   Styles the DETAILS button on each recipe card
+*/
+ion-card-content ion-button {
+  /* Add some top margin */
+  margin-top: 8px;
+}
