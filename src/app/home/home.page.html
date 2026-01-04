@@ -1,97 +1,130 @@
-<!-- ============================================
-     HOME.PAGE.HTML - Main Search Page Template
-     ============================================
-     This template displays:
-     - Header with student number and navigation icons
-     - Search input for ingredients
-     - Search button
-     - Loading spinner
-     - List of recipe cards with results
+<!--
+  Home Page Template
+  
+  Main page of the Recipe Finder app displaying:
+  - Header with student number and navigation icons
+  - Ingredient search input
+  - Search button
+  - Recipe count display (INNOVATION)
+  - Loading spinner
+  - Recipe cards with cooking time (INNOVATION)
+  - Error messages
 -->
-
-<!-- Header Section -->
 <ion-header>
   <ion-toolbar>
+    <!-- Student number displayed as the page title -->
+    <ion-title>G00439372</ion-title>
     
-    <!-- Display student number from component -->
-    <!-- {{ studentNumber }} = interpolation, pulls value from home.page.ts -->
-    <ion-title>{{ studentNumber }}</ion-title>
-    
-    <!-- Navigation Buttons to be positioned at end of the toolbar -->
+    <!-- Navigation buttons in the header -->
     <ion-buttons slot="end">
-      
-      <!-- Favourites Button -->
-      <!-- (click) = event binding, calls goToFavourites() method when clicked -->
+      <!-- Favourites button - navigates to saved recipes -->
       <ion-button (click)="goToFavourites()">
         <ion-icon name="heart"></ion-icon>
       </ion-button>
-      
-      <!-- Settings Button -->
-      <!-- (click) = event binding, calls goToSettings() method when clicked -->
+      <!-- Settings button - navigates to measurement preferences -->
       <ion-button (click)="goToSettings()">
         <ion-icon name="settings"></ion-icon>
       </ion-button>
-      
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<!-- Main Content -->
-<ion-content>
-  
-  <!-- Search Input -->
-  <ion-item>
-    <!-- Label above the input field -->
-    <ion-label position="stacked">Enter Ingredients</ion-label>
-    
-    <!-- Text Input Field -->
-    <!-- [(ngModel)] = two-way data binding -->
-    <!-- - When user types, 'ingredients' variable updates -->
-    <!-- - When 'ingredients' changes in code, input updates -->
-    <ion-input
-      [(ngModel)]="ingredients"
-      placeholder="Ingredients"
-      type="text"
-    ></ion-input>
-  </ion-item>
-  
-  <!-- Search Button -->
-  <!-- expand="block" = button takes full width -->
-  <!-- (click) = calls searchRecipes() method when clicked -->
-  <ion-button expand="block" (click)="searchRecipes()">SEARCH</ion-button>
-  
-  <!-- Loading Spinner to indicate the API call is in progress -->
-  <!-- *ngIf = structural directive, only shows when isLoading is true -->
-  <div *ngIf="isLoading" class="loading-container">
-    <ion-spinner></ion-spinner>
+<ion-content class="ion-padding">
+  <!-- 
+    Ingredient Search Input
+    Users can enter one or more ingredients separated by commas
+    Example: "chicken,rice,tomato"
+  -->
+  <ion-input
+    [(ngModel)]="ingredients"
+    placeholder="Ingredients"
+    label="Enter Ingredients"
+    labelPlacement="floating"
+    fill="outline"
+    type="text">
+  </ion-input>
+
+  <!-- Search Button - triggers the API search -->
+  <ion-button expand="block" (click)="searchRecipes()">
+    SEARCH
+  </ion-button>
+
+  <!-- 
+    INNOVATION: Recipe Count Display
+    Shows the number of recipes found after a successful search
+    Only visible when recipeCount > 0
+  -->
+  <div class="recipe-count" *ngIf="recipeCount > 0">
+    <ion-text color="medium">
+      <p>Found {{ recipeCount }} recipe(s)</p>
+    </ion-text>
   </div>
-  
-  <!-- Recipe Results List -->
-  <!-- *ngIf = only shows when recipes array has items -->
-  <ion-list *ngIf="recipes.length > 0">
-    
-    <!-- A recipe card is repeated for each recipe -->
-    <!-- *ngFor = loop directive, creates one card per recipe in array -->
-    <!-- 'let recipe of recipes' = loop variable declaration -->
+
+  <!-- 
+    Loading Spinner
+    Displayed while waiting for API response
+    INNOVATION: Provides visual feedback during loading
+  -->
+  <div class="spinner-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Searching recipes...</p>
+  </div>
+
+  <!-- 
+    Error Message Display
+    Shows user-friendly error when API call fails
+    INNOVATION: Graceful error handling
+  -->
+  <div class="error-message" *ngIf="errorMessage">
+    <ion-text color="danger">
+      <p>{{ errorMessage }}</p>
+    </ion-text>
+  </div>
+
+  <!-- 
+    Recipe Results List
+    Displays recipe cards for each search result
+    Each card shows image, title, cooking time, and details button
+  -->
+  <div class="recipe-list" *ngIf="recipes.length > 0">
+    <!-- Loop through each recipe in the results -->
     <ion-card *ngFor="let recipe of recipes">
-      
-      <!-- Recipe Image -->
-      <!-- [src] = property binding, sets src attribute from recipe.image -->
-      <ion-img [src]="recipe.image"></ion-img>
+      <!-- Recipe image -->
+      <ion-img [src]="recipe.image" [alt]="recipe.title"></ion-img>
       
       <ion-card-header>
-        <!-- Recipe Title -->
-        <!-- {{ recipe.title }} = interpolation, displays recipe name -->
+        <!-- Recipe title -->
         <ion-card-title>{{ recipe.title }}</ion-card-title>
       </ion-card-header>
       
       <ion-card-content>
-        <!-- Details Button -->
-        <!-- (click) = passes this specific recipe to viewDetails() -->
-        <ion-button (click)="viewDetails(recipe)">DETAILS</ion-button>
+        <!-- 
+          INNOVATION: Cooking Time Display
+          Shows the preparation time from the API
+          Only displayed if readyInMinutes is available
+          Uses time-outline icon for visual clarity
+        -->
+        <p class="cooking-time" *ngIf="recipe.readyInMinutes">
+          <ion-icon name="time-outline"></ion-icon>
+          {{ recipe.readyInMinutes }} mins
+        </p>
+        
+        <!-- Details button - navigates to full recipe details -->
+        <ion-button (click)="viewRecipeDetails(recipe)">
+          DETAILS
+        </ion-button>
       </ion-card-content>
-      
     </ion-card>
-  </ion-list>
-  
+  </div>
+
+  <!-- 
+    Empty State Message
+    INNOVATION: Shows helpful message when search returns no results
+    Displayed when recipes array is empty and not loading
+  -->
+  <div class="empty-message" *ngIf="recipes.length === 0 && !isLoading && ingredients && !errorMessage">
+    <ion-text color="medium">
+      <p>No recipes found. Try different ingredients.</p>
+    </ion-text>
+  </div>
 </ion-content>

@@ -1,39 +1,115 @@
-// styles for the home page
+/*
+  Home Page Styles
+  
+  Styles for the main search page including:
+  - Loading spinner container
+  - Recipe count display (INNOVATION)
+  - Error message display (INNOVATION)
+  - Cooking time display (INNOVATION)
+  - Recipe card styling
+*/
 
-// styles for the main content area
-ion-content {
-  --padding-start: 16px;   
-  --padding-end: 16px;     
-  --padding-top: 16px;     
-}
-
-// styles for the search button
-ion-button[expand="block"] {
-  margin: 16px 0;  /* 16px top/bottom, 0 left/right */
-}
-
-// styles for the loading spinner container
+/* ============================================
+   LOADING SPINNER CONTAINER
+   Centers the spinner on the page
+============================================ */
 .loading-container {
-  display: flex;              /* Enable flexbox layout */
+  display: flex;              /* Use flexbox for centering */
   justify-content: center;    /* Center horizontally */
   align-items: center;        /* Center vertically */
-  padding: 20px;              /* Space around spinner */
+  padding: 40px;              /* Space around spinner */
+  
+  ion-spinner {
+    /* Spinner size - larger than default */
+    width: 48px;
+    height: 48px;
+  }
 }
 
-// styles for each recipe card in the list
+/* ============================================
+   INNOVATION: RECIPE COUNT DISPLAY
+   Shows "Found X recipe(s)" after search
+============================================ */
+.recipe-count {
+  text-align: center;         /* Center the text */
+  margin: 8px 16px;           /* Spacing around element */
+  
+  p {
+    margin: 0;                /* Remove default paragraph margin */
+    font-size: 0.9rem;        /* Slightly smaller text */
+    font-style: italic;       /* Italic for subtle emphasis */
+  }
+}
+
+/* ============================================
+   INNOVATION: ERROR MESSAGE DISPLAY
+   Shows error message when API fails
+============================================ */
+.error-message {
+  text-align: center;         /* Center the text */
+  padding: 20px;              /* Space around message */
+  
+  p {
+    margin: 0;                /* Remove default paragraph margin */
+    font-weight: 500;         /* Slightly bolder for visibility */
+  }
+}
+
+/* ============================================
+   INNOVATION: COOKING TIME DISPLAY
+   Shows cooking time with clock icon
+============================================ */
+.cooking-time {
+  display: flex;              /* Flexbox to align icon and text */
+  align-items: center;        /* Vertically center items */
+  gap: 6px;                   /* Space between icon and text */
+  color: #666;                /* Gray color for subtlety */
+  font-size: 0.9rem;          /* Slightly smaller text */
+  margin: 0 0 12px 0;         /* Bottom margin before button */
+  
+  ion-icon {
+    font-size: 1.1rem;        /* Icon slightly larger than text */
+    color: #3880ff;           /* Ionic primary blue color */
+  }
+}
+
+/* ============================================
+   RECIPE CARD STYLING
+   Ensures consistent card appearance
+============================================ */
 ion-card {
-  margin-bottom: 16px;  /* Space below each card */
+  margin: 16px;               /* Space around each card */
+  
+  ion-img {
+    /* Ensure images display correctly */
+    width: 100%;              /* Full width of card */
+    height: auto;             /* Maintain aspect ratio */
+    object-fit: cover;        /* Cover container without distortion */
+  }
 }
 
-// styles for images within recipe cards
-ion-card ion-img {
-  width: 100%;         /* Image fills full card width */
-  height: auto;        /* Height adjusts to maintain aspect ratio */
-  object-fit: cover;   /* Crop image to fill space without distortion */
-}
-
-// styles for the recipe title within each card
 ion-card-title {
-  font-size: 1.2rem;   /* Slightly larger than default text */
-                       /* rem = relative to root font size (scalable) */
+  font-size: 1.1rem;          /* Readable title size */
+  font-weight: 500;           /* Medium weight */
+}
+
+ion-card-content {
+  ion-button {
+    margin-top: 8px;          /* Space above button */
+  }
+}
+
+/* ============================================
+   EMPTY STATE MESSAGE
+   Optional: Style for when no results found
+============================================ */
+.empty-message {
+  text-align: center;
+  padding: 40px 20px;
+  
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: #666;
+  }
 }

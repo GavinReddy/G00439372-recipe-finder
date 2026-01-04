@@ -1,69 +1,52 @@
+/*
+  Home Page Component
 
-// Main Search Page
+  Main search page of the Recipe Finder application.
 
-// This is the first page a user will see when opening the app.
-// Users can search for recipes by entering ingredients.
-
-// ANGULAR IMPORTS
+  INNOVATIONS:
+  1. Recipe Count Display - Shows "Found X recipe(s)" after searching
+  2. Cooking Time Display - Shows preparation time on recipe cards
+  3. Loading Spinner - Visual feedback during API calls
+  4. Error Handling - User-friendly error messages
+*/
 
 import { Component } from '@angular/core';
-
-
 import { CommonModule } from '@angular/common';
-// Provides *ngIf and *ngFor directives
-
 import { FormsModule } from '@angular/forms';
-// Enables [(ngModel)]  for two-way data binding 
-
 import { Router } from '@angular/router';
-// Service for navigating between pages 
 
-// Import Ionic components for the template
 import {
-  IonHeader,      // Fixed header bar at top of page
-  IonToolbar,     // Container for title and buttons in header
-  IonTitle,       // Displays the page title with student number
-  IonContent,     // Scrollable main content area
-  IonButton,      // Styled button 
-  IonInput,       // Text input field for ingredients
-  IonItem,        // Container for form elements
-  IonLabel,       // Text label for input field
-  IonList,        // Container for list of recipe cards
-  IonCard,        // Card container for each recipe
-  IonCardHeader,  // Header section of card
-  IonCardTitle,   // Title text in card (recipe name)
-  IonCardContent, // Body content of card (Details button)
-  IonImg,         // Image component for recipe photos
-  IonButtons,     // Container for icon buttons in toolbar
-  IonIcon,        // Icon display (heart, settings)
-  IonSpinner,     // Loading animation during API calls
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonButton,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardContent,
+  IonImg,
+  IonButtons,
+  IonIcon,
+  IonSpinner,
+  IonText,
 } from '@ionic/angular/standalone';
 
-
-// Import icons
-
 import { addIcons } from 'ionicons';
-// addIcons: Function to register icons for use in templates
-
-import { heart, settings } from 'ionicons/icons';
-// heart: Icon for favourites button
-// settings: Icon for settings button
-
-
-// SERVICE IMPORTS
+import { heart, settings, timeOutline } from 'ionicons/icons';
 
 import { RecipeService, Recipe } from '../services/recipe.service';
-// RecipeService handles API calls to Spoonacular
-// Recipe is an nterface defining recipe data structure 
-
-// component decorator with  metadata
 
 @Component({
-  selector: 'app-home',              // HTML tag: <app-home></app-home>
-  templateUrl: './home.page.html',   // Link to HTML template
-  styleUrls: ['./home.page.scss'],   // Link to styles
-  standalone: true,                   // No NgModule required
-  imports: [                          // Dependencies for this component
+  selector: 'app-home',
+  templateUrl: './home.page.html',
+  styleUrls: ['./home.page.scss'],
+  standalone: true,
+  imports: [
     CommonModule,
     FormsModule,
     IonHeader,
@@ -83,90 +66,98 @@ import { RecipeService, Recipe } from '../services/recipe.service';
     IonButtons,
     IonIcon,
     IonSpinner,
+    IonText,
   ],
 })
 export class HomePage {
-  
-  // Properties for components
-
+  // User input for ingredients
   ingredients: string = '';
-  // Stores the text entered by user in the search input
-  // Bound to input field with [(ngModel)]="ingredients"
-  
+
+  // Array of recipes from API
   recipes: Recipe[] = [];
-  // Array to store search results from Spoonacular API
-  // Each recipe has an id, title, image
-  
+
+  // Loading state for spinner
   isLoading: boolean = false;
-  // Controls visibility of loading spinner
-  // true then show spinner otherwise  false = hide spinner
-  
+
+  // INNOVATION: Recipe count display
+  recipeCount: number = 0;
+
+  // INNOVATION: Error message display
+  errorMessage: string = '';
+
+  // Student number for header
   studentNumber: string = 'G00439372';
-  // Displayed in the header toolbar as page title
 
- 
-  // Constructor for dependency injection
- 
   constructor(
-    private recipeService: RecipeService,  // Inject RecipeService for API calls
-    private router: Router                  // Inject Router for navigation
+    private recipeService: RecipeService,
+    private router: Router
   ) {
-    // Register icons so they can be used in the template
-    addIcons({ heart, settings });
+    addIcons({ heart, settings, timeOutline });
   }
 
-  // Search Methods for recipes
-
-  // Called when a user clicks the Search button
+  /*
+    searchRecipes - Execute recipe search
+    Uses Observable .subscribe() pattern (NOT async/await)
+  */
   searchRecipes() {
-    // Only search if a user enters something 
-    if (this.ingredients.trim()) {
-      
-      // Show a loading spinner
-      this.isLoading = true;
-      
-      // Call Spoonacular API via the RecipeService
-      this.recipeService.searchRecipes(this.ingredients).subscribe({
-        
-        // SUCCESS if API returned data
-        next: (response) => {
-          this.recipes = response.results;  // Store recipes in array
-          this.isLoading = false;           // Hide spinner
-        },
-        
-        // ERROR if API call failed
-        error: (error) => {
-          console.error('Error fetching recipes:', error);  // Log error
-          this.isLoading = false;                           // Hide spinner
-        }
-      });
+    const query = this.ingredients.trim();
+
+    // If empty input: clear UI and do nothing
+    if (!query) {
+      this.recipes = [];
+      this.recipeCount = 0;
+      this.errorMessage = '';
+      this.isLoading = false;
+      return;
     }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.recipeCount = 0;
+
+    this.recipeService.searchRecipes(query).subscribe({
+      next: (response) => {
+        this.recipes = response.results;
+        this.recipeCount = response.results.length;
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error fetching recipes:', error);
+        this.errorMessage = 'Failed to search recipes. Please try again.';
+        this.recipes = [];
+        this.recipeCount = 0;
+        this.isLoading = false;
+      },
+    });
   }
 
-
-  // Methods for viewing recipe details
-
-  // Called when user clicks DETAILS button on a recipe card
+  /*
+    viewDetails - Navigate to Recipe Details page
+    Requirement: Details opens Recipe Details Page 
+  */
   viewDetails(recipe: Recipe) {
-    // Navigate to recipe-details page with recipe data as query parameters
     this.router.navigate(['/recipe-details'], {
       queryParams: {
-        id: recipe.id,        // Recipe ID for API call
-        title: recipe.title,  // Recipe name for display
-        image: recipe.image   // Recipe image URL
-      }
+        id: recipe.id,
+        title: recipe.title,
+        image: recipe.image,
+      },
     });
-   
   }
+viewRecipeDetails(recipe: Recipe) {
+  this.viewDetails(recipe);
+}
 
-  // Methods for navigating to Favourites and Settings pages
-  
-  // Method called when the user clicks heart icon in the toolbar
+  /*
+    goToFavourites - Navigate to Favourites page
+  */
   goToFavourites() {
     this.router.navigate(['/favourite']);
   }
 
-  // Called when the user clicks settings icon in the toolbar
+  /*
+    goToSettings - Navigate to Settings page
+  */
   goToSettings() {
     this.router.navigate(['/settings']);
   }
