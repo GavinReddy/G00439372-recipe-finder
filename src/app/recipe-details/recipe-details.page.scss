@@ -1,77 +1,64 @@
-/* 
-    Recipe Details Styles
-    Styles specific to the Recipe Details page.
-    Controls layout for ingredients, instructions, and favourites button.
+/*
+  Recipe Details Page Styles
+  
+  Styles for the recipe details page including:
+  - Loading spinner
+  - Ingredient images
+  - Instructions formatting
+  - Favourites button
 */
 
-/* 
-   Create padding for content area
-   Adds spacing around content so elements
-   don't touch screen edges.
-*/
-ion-content {
-  --padding-start: 16px;   // Left padding 
-  --padding-end: 16px;     // Right padding 
-  --padding-top: 16px;     // Top padding below header 
-}
-
-/* 
-   Create a loading spinner container
-   Centers the spinner while waiting for
-   API data to load.
-*/
+/* ============================================
+   LOADING SPINNER CONTAINER
+============================================ */
 .loading-container {
-  display: flex;              // Enable flexbox 
-  justify-content: center;    // Center horizontally 
-  align-items: center;        // Center vertically 
-  padding: 20px;              // Space around spinner 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  
+  ion-spinner {
+    width: 48px;
+    height: 48px;
+  }
 }
 
-/* 
-   Add spacing between cards
-   Adds space between Ingredients card,
-   Instructions card, and Favourites button.
-*/
-ion-card {
-  margin-bottom: 16px;  // Space below each card 
-}
-
-/* 
-   Add image styling for Ingredient Images
-   Sets fixed size for ingredient images
-   to ensure consistent layout in the list.
-*/
+/* ============================================
+   INGREDIENT IMAGE STYLING
+============================================ */
 ion-item ion-img {
-  width: 80px;           // Fixed width 
-  height: 80px;          // Fixed height (square) 
-  margin-right: 16px;    // Space between image and text 
-  object-fit: cover;     // Crop image to fill space without distortion 
+  width: 80px;
+  height: 80px;
+  margin-right: 16px;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
-/* 
-   Ingredient Text Styling
-   Makes the ingredient description stand out.
-*/
+/* ============================================
+   INGREDIENT TEXT STYLING
+============================================ */
 ion-label h2 {
-  font-weight: bold;     // Bold text 
-  font-size: 1rem;       
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 4px;
 }
 
-/* 
-   Text styling for Ingredient Measurement
-   Styles the measurement line below ingredient name.
-
-*/
 ion-label p {
-  color: var(--ion-color-medium);  
-  font-size: 0.9rem;               /* Slightly smaller than main text */
+  font-size: 0.85rem;
+  color: #666;
 }
 
-/* 
-   Spacing for FAVOURITES BUTTON
+/* ============================================
+   INSTRUCTIONS STYLING
+============================================ */
+ion-card-content p {
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
 
-   Adds margin around the Add/Remove Favourites button.
-*/
+/* ============================================
+   FAVOURITES BUTTON
+============================================ */
 ion-button[expand="block"] {
-  margin: 16px 0;  
+  margin: 16px;
 }

@@ -1,51 +1,37 @@
 <!-- 
-      Recipe Details Template
-      Displays full recipe information:
-      - Back button to return to Home
-      - Ingredients with images and measurements
-      - Cooking instructions
-      - Add/Remove Favourites button
+  Recipe Details Template
+  Displays full recipe information:
+  - Back button to return to Home
+  - Ingredients with images and measurements
+  - Cooking instructions
+  - Add/Remove Favourites button
 -->
-
 
 <ion-header>
   <ion-toolbar>
     
     <!-- Back Button - Returns to Home page -->
-    <!-- slot="start" positions button on the left -->
-    <!-- defaultHref="/home" sets fallback if no navigation history -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
     
-    <!-- Page Title - Shows recipe name from component -->
-    <!-- {{ recipeTitle }} pulls value passed via query parameters -->
+    <!-- Page Title - Shows recipe name -->
     <ion-title>{{ recipeTitle }}</ion-title>
     
   </ion-toolbar>
 </ion-header>
 
-<!-- Main Content -->
 <ion-content>
   
-  <!-- Load a spinner -->
-  <!-- *ngIf="isLoading" only shows while fetching data from API -->
+  <!-- Loading Spinner -->
   <div *ngIf="isLoading" class="loading-container">
     <ion-spinner></ion-spinner>
   </div>
   
-  <!-- Recipe Content -->
-  <!-- *ngIf="recipeDetails" only shows after API data is loaded -->
-  <!-- Prevents errors from accessing null properties -->
+  <!-- Recipe Content - Only shows after API data loads -->
   <div *ngIf="recipeDetails">
     
-    <!-- ==========================================
-          Ingredients Card
-          Lists all ingredients with:
-          - Image of ingredient
-          - Original description (e.g., "2 large carrots, chopped")
-          - Measurement in US or Metric based on settings
-    -->
+    <!-- Ingredients Card -->
     <ion-card>
       <ion-card-header>
         <ion-card-title>Ingredients</ion-card-title>
@@ -54,20 +40,15 @@
         <ion-list>
           
           <!-- Loop through each ingredient -->
-          <!-- *ngFor creates one ion-item per ingredient -->
           <ion-item *ngFor="let ingredient of recipeDetails.extendedIngredients">
             
             <!-- Ingredient Image -->
-            <!-- Spoonacular stores ingredient images at this CDN URL -->
-            <!-- [src] = property binding, constructs full URL dynamically -->
-            <!-- slot="start" positions image on the left -->
             <ion-img [src]="'https://spoonacular.com/cdn/ingredients_100x100/' + ingredient.image" slot="start"></ion-img>
             
             <ion-label>
               <!-- Ingredient Name/Description -->
               <h2>{{ ingredient.original }}</h2>
-              <!-- getMeasurement() returns US or Metric based on settings -->
-              <!-- e.g., "14.5 ounces" or "411.068 grams" -->
+              <!-- Measurement based on settings -->
               <p>{{ getMeasurement(ingredient) }}</p>
             </ion-label>
             
@@ -76,71 +57,38 @@
       </ion-card-content>
     </ion-card>
     
-      <!-- 
-          INSTRUCTIONS CARD (Structured)
-
-          Shows step-by-step cooking instructions
-          Only displays if analyzedInstructions exists and has content
-      -->
+    <!-- Instructions Card (Structured) -->
     <ion-card *ngIf="recipeDetails.analyzedInstructions && recipeDetails.analyzedInstructions.length > 0">
       <ion-card-header>
         <ion-card-title>Instructions</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <ion-list>
-          
-          <!-- Loop through instruction sets -->
-          <!-- Some recipes have multiple instruction groups -->
           <ion-item *ngFor="let instruction of recipeDetails.analyzedInstructions">
             <ion-label>
-              
-              <!-- Loop through each step in the instruction set -->
               <div *ngFor="let step of instruction.steps">
-                <!-- Display step number and instruction text -->
-                <!-- e.g., "1: Preheat oven to 350°F" -->
                 <p><strong>{{ step.number }}:</strong> {{ step.step }}</p>
               </div>
-              
             </ion-label>
           </ion-item>
         </ion-list>
       </ion-card-content>
     </ion-card>
     
-    <!-- 
-          Instructions Card (Unstructured)
-          Shows raw HTML instructions if no structured instructions exist
-          Some recipes only have unstructured instruction text
-    -->
+    <!-- Instructions Card (Unstructured Fallback) -->
     <ion-card *ngIf="!recipeDetails.analyzedInstructions || recipeDetails.analyzedInstructions.length === 0">
       <ion-card-header>
         <ion-card-title>Instructions</ion-card-title>
       </ion-card-header>
       <ion-card-content>
-        <!-- [innerHTML] renders HTML content -->
-        <!-- Used because API may return formatted HTML text -->
         <p [innerHTML]="recipeDetails.instructions"></p>
       </ion-card-content>
     </ion-card>
     
-    <!-- 
-          Favourites Button
-
-          Toggles recipe in/out of favourites list
-          Button text and icon change based on current status
-    -->
+    <!-- Favourites Button -->
     <ion-button expand="block" (click)="toggleFavourite()">
-      
-      <!-- Heart Icon -->
-      <!-- [name] = property binding, dynamically sets icon -->
-      <!-- isFavourite true = filled heart -->
-      <!-- isFavourite false = outline heart -->
       <ion-icon [name]="isFavourite ? 'heart' : 'heart-outline'" slot="start"></ion-icon>
-      
-      <!-- Button Text -->
-      <!-- Ternary operator switches text based on favourite status -->
       {{ isFavourite ? 'REMOVE FROM FAVOURITES' : 'ADD TO FAVOURITES' }}
-      
     </ion-button>
     
   </div>
