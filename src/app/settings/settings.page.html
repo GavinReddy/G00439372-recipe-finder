@@ -1,3 +1,4 @@
+
 <!-- 
   Settings Page Template
   Allows users to select their preferred measurement units (Metric or US)
@@ -5,7 +6,6 @@
 -->
 <ion-header>
   <ion-toolbar>
-    <!-- Back button to return to previous page -->
     <ion-buttons slot="start">
       <ion-back-button defaultHref="/home"></ion-back-button>
     </ion-buttons>
@@ -14,27 +14,25 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Settings label -->
   <ion-text>
     <h2>Display Recipe Measurements In:</h2>
   </ion-text>
 
-  <!-- Radio group for measurement selection -->
   <ion-list>
-    <ion-radio-group 
-      [(ngModel)]="measurementUnit" 
+    <ion-radio-group
+      [(ngModel)]="measurementUnit"
       (ionChange)="onMeasurementChange($event)">
-      
-      <!-- Metric option -->
-      <ion-item>
-        <ion-radio value="metric" mode="md">Metric</ion-radio>
+
+      <ion-item lines="full">
+        <ion-label>Metric</ion-label>
+        <ion-radio slot="end" value="metric" mode="md"></ion-radio>
       </ion-item>
-      
-      <!-- US option -->
-      <ion-item>
-        <ion-radio value="us" mode="md">US</ion-radio>
+
+      <ion-item lines="full">
+        <ion-label>US</ion-label>
+        <ion-radio slot="end" value="us" mode="md"></ion-radio>
       </ion-item>
-      
+
     </ion-radio-group>
   </ion-list>
 </ion-content>

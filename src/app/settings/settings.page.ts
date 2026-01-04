@@ -13,12 +13,14 @@ import {
   IonContent,
   IonList,
   IonItem,
+  IonLabel,        
   IonRadioGroup,
   IonRadio,
   IonBackButton,
   IonButtons,
-  IonText  // ADD THIS
+  IonText
 } from '@ionic/angular/standalone';
+
 import { StorageService } from '../services/storage.service';
 
 @Component({
@@ -35,14 +37,16 @@ import { StorageService } from '../services/storage.service';
     IonContent,
     IonList,
     IonItem,
+    IonLabel,     
     IonRadioGroup,
     IonRadio,
     IonBackButton,
     IonButtons,
-    IonText  // ADD THIS - removed IonLabel since it's not used
+    IonText
   ]
 })
 export class SettingsPage implements OnInit {
+
   // Stores the current measurement unit preference
   // Default is 'metric' if no preference has been saved
   measurementUnit: string = 'metric';
